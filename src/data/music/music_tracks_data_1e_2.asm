@@ -1086,13 +1086,13 @@ ChannelDefinition_1e_54c2::
     note D#4
     notelen 2
     note D#4
-    enable_unknown2
+    enable_percussion_mode
     notelen 1
     rest
     note D_3
     note A_2
     note F_2
-    disable_unknown2
+    disable_percussion_mode
     end_def
 
 ChannelDefinition_1e_54d7::
@@ -1119,13 +1119,13 @@ ChannelDefinition_1e_54de::
     note A#3
     notelen 2
     note A#3
-    enable_unknown2
+    enable_percussion_mode
     notelen 1
     rest
     note A_2
     note F_2
     note D_2
-    disable_unknown2
+    disable_percussion_mode
     end_def
 
 ChannelDefinition_1e_54f3::

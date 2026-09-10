@@ -39,7 +39,7 @@ NoteLengthTable_1b_9::
 NoteLengthTable_1b_10::
     db   NOTELENS_10
 
-HardcodedData_1b_4b13::
+RetriggerEnvelopeTable_1b_4b13::
     db   $10, $32, $22, $47, $81, $20, $00
 
 MusicMabeVillage_Channel3_rest_1C0::
@@ -90,7 +90,7 @@ MusicObtainItem_Channel4::
 
 ChannelDefinition_1b_4b51::
     set_envelope_duty $60, $21, 0, 0
-    enable_unknown1
+    disable_sfx
     notelen 2
     note A_4
     note A#4
@@ -100,7 +100,7 @@ ChannelDefinition_1b_4b51::
     note C#5
     notelen 14
     note D_5
-    disable_unknown1
+    enable_sfx
     end_def
 
 ChannelDefinition_1b_4b61::
@@ -306,7 +306,7 @@ ChannelDefinition_1b_4c3f:: ; Totaka's song
     rest
 
     ; Percussion
-    enable_unknown2
+    enable_percussion_mode
     notelen 12
     rest
     notelen 13
@@ -316,7 +316,7 @@ ChannelDefinition_1b_4c3f:: ; Totaka's song
     note A_2
     notelen 10
     note A_2
-    disable_unknown2
+    disable_percussion_mode
 
     ; Melody
     notelen 12
@@ -454,7 +454,7 @@ ChannelDefinition_1b_4ccc::
 
 ChannelDefinition_1b_4cde::
     set_envelope_duty $22, $00, 2, 0
-    enable_unknown2
+    enable_percussion_mode
 
     begin_loop $20
         notelen 1
@@ -508,7 +508,7 @@ ChannelDefinition_1b_4cef::
     rest
     rest
     set_envelope_duty $61, $00, 2, 0
-    enable_unknown2
+    enable_percussion_mode
     notelen 1
     note D_3
     notelen 6
@@ -526,7 +526,7 @@ ChannelDefinition_1b_4cef::
     note D_3
     notelen 2
     note D_3
-    disable_unknown2
+    disable_percussion_mode
     end_def
 
 waveform_1b_4d2f::
@@ -534,7 +534,7 @@ waveform_1b_4d2f::
 
 ChannelDefinition_1b_4d3f::
     set_waveform waveform_1b_4d2f, $20
-    enable_unknown2
+    enable_percussion_mode
 
     begin_loop $02
         notelen 10

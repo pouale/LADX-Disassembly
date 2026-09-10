@@ -963,7 +963,7 @@ jr_01E_45A5:
     dec  a                                        ;; 1E:4629 $3D
     ld   e, a                                     ;; 1E:462A $5F
     ld   d, $00                                   ;; 1E:462B $16 $00
-    ld   hl, wD307                                ;; 1E:462D $21 $07 $D3
+    ld   hl, wRetriggerEnvelope.channel1          ;; 1E:462D $21 $07 $D3
     add  hl, de                                   ;; 1E:4630 $19
     ld   [hl], c                                  ;; 1E:4631 $71
     pop  af                                       ;; 1E:4632 $F1
@@ -987,7 +987,7 @@ jr_01E_463C:
     ld   [de], a                                  ;; 1E:464B $12
     inc  e                                        ;; 1E:464C $1C
     ld   [de], a                                  ;; 1E:464D $12
-    ld   de, wD3B6                                ;; 1E:464E $11 $B6 $D3
+    ld   de, wPercussionMode                      ;; 1E:464E $11 $B6 $D3
     call func_01E_493C                            ;; 1E:4651 $CD $3C $49
     inc  e                                        ;; 1E:4654 $1C
     xor  a                                        ;; 1E:4655 $AF
@@ -1257,7 +1257,7 @@ jr_01E_4794:
     cp   $04                                      ;; 1E:4797 $FE $04
     jp   z, label_01E_4770                        ;; 1E:4799 $CA $70 $47
 
-    ld   de, wD3B6                                ;; 1E:479C $11 $B6 $D3
+    ld   de, wPercussionMode                      ;; 1E:479C $11 $B6 $D3
     call func_01E_493C                            ;; 1E:479F $CD $3C $49
     ld   a, [de]                                  ;; 1E:47A2 $1A
     and  a                                        ;; 1E:47A3 $A7
@@ -1317,13 +1317,13 @@ func_01E_47F6::
     and  a                                        ;; 1E:47F9 $A7
     jr   nz, .jr_481D                             ;; 1E:47FA $20 $21
 
-    ld   a, [wMusicChannel1.softwareEnvelope]     ;; 1E:47FC $FA $17 $D3
+    ld   a, [wMusicChannel1.retriggerEnvelope]    ;; 1E:47FC $FA $17 $D3
     and  a                                        ;; 1E:47FF $A7
     jr   z, .jr_481D                              ;; 1E:4800 $28 $1B
 
     and  $0F                                      ;; 1E:4802 $E6 $0F
     ld   b, a                                     ;; 1E:4804 $47
-    ld   hl, wD307                                ;; 1E:4805 $21 $07 $D3
+    ld   hl, wRetriggerEnvelope.channel1          ;; 1E:4805 $21 $07 $D3
     ld   a, [wMusicChannel1.lengthCounterUp]      ;; 1E:4808 $FA $1E $D3
     cp   [hl]                                     ;; 1E:480B $BE
     jr   nz, .jr_481D                             ;; 1E:480C $20 $0F
@@ -1341,13 +1341,13 @@ func_01E_47F6::
     and  a                                        ;; 1E:4820 $A7
     ret  nz                                       ;; 1E:4821 $C0
 
-    ld   a, [wMusicChannel2.softwareEnvelope]     ;; 1E:4822 $FA $27 $D3
+    ld   a, [wMusicChannel2.retriggerEnvelope]    ;; 1E:4822 $FA $27 $D3
     and  a                                        ;; 1E:4825 $A7
     ret  z                                        ;; 1E:4826 $C8
 
     and  $0F                                      ;; 1E:4827 $E6 $0F
     ld   b, a                                     ;; 1E:4829 $47
-    ld   hl, wD308                                ;; 1E:482A $21 $08 $D3
+    ld   hl, wRetriggerEnvelope.channel2          ;; 1E:482A $21 $08 $D3
     ld   a, [wMusicChannel2.lengthCounterUp]      ;; 1E:482D $FA $2E $D3
     cp   [hl]                                     ;; 1E:4830 $BE
     ret  nz                                       ;; 1E:4831 $C0
@@ -1389,7 +1389,7 @@ label_01E_4860:
     ld   a, $01                                   ;; 1E:4860 $3E $01
 
 jr_01E_4862:
-    ld   [wD3CD], a                               ;; 1E:4862 $EA $CD $D3
+    ld   [wSfxDisabled], a                        ;; 1E:4862 $EA $CD $D3
     call func_01E_4487                            ;; 1E:4865 $CD $87 $44
     jp   label_01E_45A5                           ;; 1E:4868 $C3 $A5 $45
 
@@ -1481,7 +1481,7 @@ label_01E_48C3:
     jp   label_01E_48AF                           ;; 1E:48EA $C3 $AF $48
 
 label_01E_48ED:
-    ld   de, wD3B6                                ;; 1E:48ED $11 $B6 $D3
+    ld   de, wPercussionMode                      ;; 1E:48ED $11 $B6 $D3
     call func_01E_493C                            ;; 1E:48F0 $CD $3C $49
     ld   a, $01                                   ;; 1E:48F3 $3E $01
 
@@ -1491,7 +1491,7 @@ jr_01E_48F5:
     jp   label_01E_45A5                           ;; 1E:48F9 $C3 $A5 $45
 
 label_01E_48FC:
-    ld   de, wD3B6                                ;; 1E:48FC $11 $B6 $D3
+    ld   de, wPercussionMode                      ;; 1E:48FC $11 $B6 $D3
     call func_01E_493C                            ;; 1E:48FF $CD $3C $49
     xor  a                                        ;; 1E:4902 $AF
     jr   jr_01E_48F5                              ;; 1E:4903 $18 $F0
@@ -1695,12 +1695,12 @@ func_01E_4D2A::
     ld   [wD39F], a                               ;; 1E:4D3D $EA $9F $D3
     ld   [wActiveMusicTableIndex], a              ;; 1E:4D40 $EA $D9 $D3
     ld   [wD3DA], a                               ;; 1E:4D43 $EA $DA $D3
-    ld   [wD3B6], a                               ;; 1E:4D46 $EA $B6 $D3
-    ld   [wD3B6+1], a                             ;; 1E:4D49 $EA $B7 $D3
-    ld   [wD3B6+2], a                             ;; 1E:4D4C $EA $B8 $D3
-    ld   [wD3B6+3], a                             ;; 1E:4D4F $EA $B9 $D3
-    ld   [wD3B6+4], a                             ;; 1E:4D52 $EA $BA $D3
-    ld   [wD3B6+5], a                             ;; 1E:4D55 $EA $BB $D3
+    ld   [wPercussionMode], a                     ;; 1E:4D46 $EA $B6 $D3
+    ld   [wPercussionMode+1], a                   ;; 1E:4D49 $EA $B7 $D3
+    ld   [wPercussionMode+2], a                   ;; 1E:4D4C $EA $B8 $D3
+    ld   [wPercussionMode+3], a                   ;; 1E:4D4F $EA $B9 $D3
+    ld   [wPercussionMode+4], a                   ;; 1E:4D52 $EA $BA $D3
+    ld   [wPercussionMode+5], a                   ;; 1E:4D55 $EA $BB $D3
     ld   [wD394], a                               ;; 1E:4D58 $EA $94 $D3
     ld   [wD394+1], a                             ;; 1E:4D5B $EA $95 $D3
     ld   [wD396], a                               ;; 1E:4D5E $EA $96 $D3
@@ -1713,7 +1713,7 @@ func_01E_4D2A::
     ld   [wD3A0], a                               ;; 1E:4D73 $EA $A0 $D3
     ld   [wD3A1], a                               ;; 1E:4D76 $EA $A1 $D3
     ld   [wD3A2], a                               ;; 1E:4D79 $EA $A2 $D3
-    ld   [wD3CD], a                               ;; 1E:4D7C $EA $CD $D3
+    ld   [wSfxDisabled], a                        ;; 1E:4D7C $EA $CD $D3
     ld   [wD3D6], a                               ;; 1E:4D7F $EA $D6 $D3
     ld   [wD3D7], a                               ;; 1E:4D82 $EA $D7 $D3
     ld   [wD3D7+1], a                             ;; 1E:4D85 $EA $D8 $D3

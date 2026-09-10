@@ -703,7 +703,7 @@ label_01B_442A:
     pop  hl                                       ;; 1B:4452 $E1
     call HandleEffects                            ;; 1B:4453 $CD $FE $46
     push hl                                       ;; 1B:4456 $E5
-    call HandleSoftwareEnvelopes                  ;; 1B:4457 $CD $87 $47
+    call HandleRetriggerEnvelopes                 ;; 1B:4457 $CD $87 $47
     pop  hl                                       ;; 1B:445A $E1
 
 UpdateNextMusicChannelAfterHlDecrement:
@@ -948,7 +948,7 @@ ParseSoundOpcode:
     inc  l                                        ;; 1B:4591 $2C
     ld   a, [hl] ; D3x7                           ;; 1B:4592 $7E
     and  $F0                                      ;; 1B:4593 $E6 $F0
-    jr   nz, CalculateSoftwareEnvelopeOnset       ;; 1B:4595 $20 $03
+    jr   nz, CalculateRetriggerEnvelopeOnset      ;; 1B:4595 $20 $03
 
     ld   a, d                                     ;; 1B:4597 $7A
     jr   SaveNoteLength                           ;; 1B:4598 $18 $25
@@ -956,10 +956,11 @@ ParseSoundOpcode:
 ; calculates approximately d * 1/2 or d * 1/4 or d * 3/4
 ; Input:
 ;  d:  value from NoteLengthTable
-;  a:  [wD3x7] & $f0 -- only ever 100_00000, 010_00000, or 001_00000
+;  a:  [wMusicChannelx.retriggerEnvelope] & $f0 -- only ever 100_00000,
+;  010_00000, or 001_00000
 ; Output:
 ;  c:  d>>1, d>>2, or (d>>1)+(d>>2); or 2 if it'd be 0 otherwise
-CalculateSoftwareEnvelopeOnset:
+CalculateRetriggerEnvelopeOnset:
     ld   e, a                                     ;; 1B:459A $5F
     ld   a, d                                     ;; 1B:459B $7A
     push af                                       ;; 1B:459C $F5
@@ -988,7 +989,7 @@ CalculateSoftwareEnvelopeOnset:
     dec  a                                        ;; 1B:45B5 $3D
     ld   e, a                                     ;; 1B:45B6 $5F
     ld   d, $00                                   ;; 1B:45B7 $16 $00
-    ld   hl, wD307                                ;; 1B:45B9 $21 $07 $D3
+    ld   hl, wRetriggerEnvelope.channel1      ;; 1B:45B9 $21 $07 $D3
     add  hl, de                                   ;; 1B:45BC $19
     ld   [hl], c                                  ;; 1B:45BD $71
     pop  af                                       ;; 1B:45BE $F1
@@ -1016,7 +1017,7 @@ HandleNote::
     ld   [de], a                                  ;; 1B:45D7 $12
     inc  e                                        ;; 1B:45D8 $1C
     ld   [de], a                                  ;; 1B:45D9 $12
-    ld   de, wD3B6                                ;; 1B:45DA $11 $B6 $D3
+    ld   de, wPercussionMode                      ;; 1B:45DA $11 $B6 $D3
     call IndexChannelArray                        ;; 1B:45DD $CD $95 $48
     inc  e                                        ;; 1B:45E0 $1C
     xor  a                                        ;; 1B:45E1 $AF
@@ -1299,7 +1300,7 @@ HandleRemainingEffects:
     cp   $04                                      ;; 1B:4723 $FE $04
     jp   z, PopHLAndQuit                          ;; 1B:4725 $CA $FC $46
 
-    ld   de, wD3B6                                ;; 1B:4728 $11 $B6 $D3
+    ld   de, wPercussionMode                      ;; 1B:4728 $11 $B6 $D3
     call IndexChannelArray                        ;; 1B:472B $CD $95 $48
     ld   a, [de]                                  ;; 1B:472E $1A
     and  a                                        ;; 1B:472F $A7
@@ -1361,42 +1362,42 @@ ModulatePitch:
     call WriteAndSaveFrequency                    ;; 1B:4781 $CD $84 $48
     jp   HandleRemainingEffects                   ;; 1B:4784 $C3 $20 $47
 
-HandleSoftwareEnvelopes::
+HandleRetriggerEnvelopes::
     ld   a, [wMusicChannel1.playingRest]          ;; 1B:4787 $FA $1B $D3
     and  a                                        ;; 1B:478A $A7
     jr   nz, .channel2                             ;; 1B:478B $20 $21
 
-    ld   a, [wMusicChannel1.softwareEnvelope]     ;; 1B:478D $FA $17 $D3
+    ld   a, [wMusicChannel1.retriggerEnvelope]    ;; 1B:478D $FA $17 $D3
     and  a                                        ;; 1B:4790 $A7
-    jr   z, .channel2                              ;; 1B:4791 $28 $1B
+    jr   z, .channel2                             ;; 1B:4791 $28 $1B
 
     and  $0F                                      ;; 1B:4793 $E6 $0F
     ld   b, a                                     ;; 1B:4795 $47
-    ld   hl, wD307                                ;; 1B:4796 $21 $07 $D3
+    ld   hl, wRetriggerEnvelope.channel1              ;; 1B:4796 $21 $07 $D3
     ld   a, [wMusicChannel1.lengthCounterUp]      ;; 1B:4799 $FA $1E $D3
     cp   [hl]                                     ;; 1B:479C $BE
-    jr   nz, .channel2                             ;; 1B:479D $20 $0F
+    jr   nz, .channel2                            ;; 1B:479D $20 $0F
 
     ld   c, $12                                   ;; 1B:479F $0E $12
     ld   de, wMusicChannel1.noteBaseFrequencyHigh ;; 1B:47A1 $11 $1A $D3
     ld   a, [wMusicChannel1.loopCounter]          ;; 1B:47A4 $FA $1F $D3
     bit  7, a                                     ;; 1B:47A7 $CB $7F
-    jr   nz, .channel2                             ;; 1B:47A9 $20 $03
+    jr   nz, .channel2                            ;; 1B:47A9 $20 $03
 
-    call EffectSoftwareEnvelope                   ;; 1B:47AB $CD $D2 $47
+    call EffectRetriggerEnvelope                  ;; 1B:47AB $CD $D2 $47
 
 .channel2
     ld   a, [wMusicChannel2.playingRest]          ;; 1B:47AE $FA $2B $D3
     and  a                                        ;; 1B:47B1 $A7
     ret  nz                                       ;; 1B:47B2 $C0
 
-    ld   a, [wMusicChannel2.softwareEnvelope]     ;; 1B:47B3 $FA $27 $D3
+    ld   a, [wMusicChannel2.retriggerEnvelope]    ;; 1B:47B3 $FA $27 $D3
     and  a                                        ;; 1B:47B6 $A7
     ret  z                                        ;; 1B:47B7 $C8
 
     and  $0F                                      ;; 1B:47B8 $E6 $0F
     ld   b, a                                     ;; 1B:47BA $47
-    ld   hl, wD308                                ;; 1B:47BB $21 $08 $D3
+    ld   hl, wRetriggerEnvelope.channel2          ;; 1B:47BB $21 $08 $D3
     ld   a, [wMusicChannel2.lengthCounterUp]      ;; 1B:47BE $FA $2E $D3
     cp   [hl]                                     ;; 1B:47C1 $BE
     ret  nz                                       ;; 1B:47C2 $C0
@@ -1407,15 +1408,15 @@ HandleSoftwareEnvelopes::
 
     ld   c, $17                                   ;; 1B:47C9 $0E $17
     ld   de, wMusicChannel2.noteBaseFrequencyHigh ;; 1B:47CB $11 $2A $D3
-    call EffectSoftwareEnvelope                   ;; 1B:47CE $CD $D2 $47
+    call EffectRetriggerEnvelope                  ;; 1B:47CE $CD $D2 $47
     ret                                           ;; 1B:47D1 $C9
 
-EffectSoftwareEnvelope::
+EffectRetriggerEnvelope::
     push bc                                       ;; 1B:47D2 $C5
     dec  b                                        ;; 1B:47D3 $05
     ld   c, b                                     ;; 1B:47D4 $48
     ld   b, $00                                   ;; 1B:47D5 $06 $00
-    ld   hl, HardcodedData_1b_4b13                ;; 1B:47D7 $21 $13 $4B
+    ld   hl, RetriggerEnvelopeTable_1b_4b13       ;; 1B:47D7 $21 $13 $4B
     add  hl, bc                                   ;; 1B:47DA $09
     ld   a, [hl]                                  ;; 1B:47DB $7E
     pop  bc                                       ;; 1B:47DC $C1
@@ -1440,7 +1441,7 @@ soundOpcode96:
     ld   a, $01                                   ;; 1B:47F1 $3E $01
 
 .setD3CDAndParseNext:
-    ld   [wD3CD], a                               ;; 1B:47F3 $EA $CD $D3
+    ld   [wSfxDisabled], a                        ;; 1B:47F3 $EA $CD $D3
     call IncChannelDefinitionPointer              ;; 1B:47F6 $CD $0B $44
     jp   ParseSoundOpcode                         ;; 1B:47F9 $C3 $31 $45
 
@@ -1516,7 +1517,7 @@ TickChannel3OpcodeCounter::
     ret                                           ;; 1B:4845 $C9
 
 soundOpcode97:
-    ld   de, wD3B6                                ;; 1B:4846 $11 $B6 $D3
+    ld   de, wPercussionMode                      ;; 1B:4846 $11 $B6 $D3
     call IndexChannelArray                        ;; 1B:4849 $CD $95 $48
     ld   a, $01                                   ;; 1B:484C $3E $01
 
@@ -1526,7 +1527,7 @@ soundOpcode97:
     jp   ParseSoundOpcode                         ;; 1B:4852 $C3 $31 $45
 
 soundOpcode98:
-    ld   de, wD3B6                                ;; 1B:4855 $11 $B6 $D3
+    ld   de, wPercussionMode                      ;; 1B:4855 $11 $B6 $D3
     call IndexChannelArray                        ;; 1B:4858 $CD $95 $48
     xor  a                                        ;; 1B:485B $AF
     jr   soundOpcode97.setDeAndParseNext          ;; 1B:485C $18 $F0
@@ -1856,12 +1857,12 @@ StopSquareAndWaveChannels_1B::
     ld   [wD39F], a                               ;; 1B:4E6A $EA $9F $D3
     ld   [wActiveMusicTableIndex], a              ;; 1B:4E6D $EA $D9 $D3
     ld   [wD3DA], a                               ;; 1B:4E70 $EA $DA $D3
-    ld   [wD3B6], a                               ;; 1B:4E73 $EA $B6 $D3
-    ld   [wD3B6+1], a                             ;; 1B:4E76 $EA $B7 $D3
-    ld   [wD3B6+2], a                             ;; 1B:4E79 $EA $B8 $D3
-    ld   [wD3B6+3], a                             ;; 1B:4E7C $EA $B9 $D3
-    ld   [wD3B6+4], a                             ;; 1B:4E7F $EA $BA $D3
-    ld   [wD3B6+5], a                             ;; 1B:4E82 $EA $BB $D3
+    ld   [wPercussionMode], a                     ;; 1B:4E73 $EA $B6 $D3
+    ld   [wPercussionMode+1], a                   ;; 1B:4E76 $EA $B7 $D3
+    ld   [wPercussionMode+2], a                   ;; 1B:4E79 $EA $B8 $D3
+    ld   [wPercussionMode+3], a                   ;; 1B:4E7C $EA $B9 $D3
+    ld   [wPercussionMode+4], a                   ;; 1B:4E7F $EA $BA $D3
+    ld   [wPercussionMode+5], a                   ;; 1B:4E82 $EA $BB $D3
     ld   [wD394], a                               ;; 1B:4E85 $EA $94 $D3
     ld   [wD394+1], a                             ;; 1B:4E88 $EA $95 $D3
     ld   [wD396], a                               ;; 1B:4E8B $EA $96 $D3
@@ -1874,7 +1875,7 @@ StopSquareAndWaveChannels_1B::
     ld   [wD3A0], a                               ;; 1B:4EA0 $EA $A0 $D3
     ld   [wD3A1], a                               ;; 1B:4EA3 $EA $A1 $D3
     ld   [wD3A2], a                               ;; 1B:4EA6 $EA $A2 $D3
-    ld   [wD3CD], a                               ;; 1B:4EA9 $EA $CD $D3
+    ld   [wSfxDisabled], a                        ;; 1B:4EA9 $EA $CD $D3
     ld   [wD3D6], a                               ;; 1B:4EAC $EA $D6 $D3
     ld   [wD3D7], a                               ;; 1B:4EAF $EA $D7 $D3
     ld   [wD3D7+1], a                             ;; 1B:4EB2 $EA $D8 $D3

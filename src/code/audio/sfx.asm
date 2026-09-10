@@ -2706,7 +2706,7 @@ PlayActiveWaveSfx::
     call GetHandlerAddressInTable                 ;; 1F:540C $CD $64 $7A
     ld   de, wD392                                ;; 1F:540F $11 $92 $D3
     ld   bc, wD396                                ;; 1F:5412 $01 $96 $D3
-    ld   a, [wD3CD]                               ;; 1F:5415 $FA $CD $D3
+    ld   a, [wSfxDisabled]                        ;; 1F:5415 $FA $CD $D3
     and  a                                        ;; 1F:5418 $A7
     ret  nz                                       ;; 1F:5419 $C0
 
@@ -8653,12 +8653,12 @@ func_01F_7B5C::
     ld   [wD39F], a                               ;; 1F:7B82 $EA $9F $D3
     ld   [wActiveMusicTableIndex], a              ;; 1F:7B85 $EA $D9 $D3
     ld   [wD3DA], a                               ;; 1F:7B88 $EA $DA $D3
-    ld   [wD3B6], a                               ;; 1F:7B8B $EA $B6 $D3
-    ld   [wD3B6+1], a                             ;; 1F:7B8E $EA $B7 $D3
-    ld   [wD3B6+2], a                             ;; 1F:7B91 $EA $B8 $D3
-    ld   [wD3B6+3], a                             ;; 1F:7B94 $EA $B9 $D3
-    ld   [wD3B6+4], a                             ;; 1F:7B97 $EA $BA $D3
-    ld   [wD3B6+5], a                             ;; 1F:7B9A $EA $BB $D3
+    ld   [wPercussionMode], a                     ;; 1F:7B8B $EA $B6 $D3
+    ld   [wPercussionMode+1], a                   ;; 1F:7B8E $EA $B7 $D3
+    ld   [wPercussionMode+2], a                   ;; 1F:7B91 $EA $B8 $D3
+    ld   [wPercussionMode+3], a                   ;; 1F:7B94 $EA $B9 $D3
+    ld   [wPercussionMode+4], a                   ;; 1F:7B97 $EA $BA $D3
+    ld   [wPercussionMode+5], a                   ;; 1F:7B9A $EA $BB $D3
     ld   [wD394], a                               ;; 1F:7B9D $EA $94 $D3
     ld   [wD394+1], a                             ;; 1F:7BA0 $EA $95 $D3
     ld   [wD396], a                               ;; 1F:7BA3 $EA $96 $D3
@@ -8675,7 +8675,7 @@ func_01F_7B5C::
     ld   [wD3A1], a                               ;; 1F:7BC4 $EA $A1 $D3
     ld   [wD3A2], a                               ;; 1F:7BC7 $EA $A2 $D3
     ld   [wD3A3], a                               ;; 1F:7BCA $EA $A3 $D3
-    ld   [wD3CD], a                               ;; 1F:7BCD $EA $CD $D3
+    ld   [wSfxDisabled], a                        ;; 1F:7BCD $EA $CD $D3
     ld   [wD3D6], a                               ;; 1F:7BD0 $EA $D6 $D3
     ld   [wD3D7], a                               ;; 1F:7BD3 $EA $D7 $D3
     ld   [wD3D7+1], a                             ;; 1F:7BD6 $EA $D8 $D3

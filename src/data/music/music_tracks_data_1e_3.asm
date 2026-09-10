@@ -29,7 +29,7 @@ ChannelDefinition_1e_701d::
 
 ChannelDefinition_1e_7026::
     set_waveform waveform_1e_730f, $01
-    unknownop_94
+    enable_channel3_slow_attack
     end_def
 
 MusicEggBalladBell::
@@ -75,7 +75,7 @@ ChannelDefinition_1e_704d::
 
 ChannelDefinition_1e_7058::
     set_envelope_duty $47, $00, 2, 0
-    enable_unknown1
+    disable_sfx
 
     begin_loop $0a
         notelen 3
@@ -120,23 +120,23 @@ ChannelDefinition_1e_7058::
         note B_5
     next_loop
 
-    disable_unknown1
+    enable_sfx
     end_def
 
 ChannelDefinition_1e_7089::
     set_waveform waveform_1e_730f, $01
     notelen 14
     rest
-    unknownop_94
+    enable_channel3_slow_attack
     end_def
 
 ChannelDefinition_1e_7091::
     set_waveform waveform_1e_72e1, $01
-    unknownop_94
+    enable_channel3_slow_attack
     end_def
 
 ChannelDefinition_1e_7097::
-    enable_unknown1
+    disable_sfx
     notelen 2
     rest
     note B_2
@@ -225,7 +225,7 @@ ChannelDefinition_1e_70c0::
     rest
     notelen 5
     rest
-    disable_unknown1
+    enable_sfx
     end_def
 
 MusicEggBalladHarp::
@@ -249,7 +249,7 @@ MusicEggBalladAll_Channel1::
 
 ChannelDefinition_1e_7107::
     set_envelope_duty $71, $82, 2, 0
-    enable_unknown1
+    disable_sfx
 
     begin_loop $04
         notelen 2
@@ -331,7 +331,7 @@ ChannelDefinition_1e_7133::
         note A_4
     next_loop
 
-    disable_unknown1
+    enable_sfx
     end_def
 
 MusicEggBalladMarimba::
@@ -352,7 +352,7 @@ MusicEggBalladTriangle_Channel1::
 
 ChannelDefinition_1e_716d::
     set_envelope_duty $87, $00, 2, 0
-    enable_unknown1
+    disable_sfx
     notelen 5
     note A_6
     note A_6
@@ -472,7 +472,7 @@ MusicEggBalladOrgan_Channel2::
 
 ChannelDefinition_1e_71f7::
     set_envelope_duty $19, $45, 1, 0
-    enable_unknown1
+    disable_sfx
 
     begin_loop $02
         notelen 3
@@ -651,7 +651,7 @@ ChannelDefinition_1e_72ba::
 
 ChannelDefinition_1e_72c3::
     set_waveform waveform_1e_72e1, $01
-    unknownop_94
+    enable_channel3_slow_attack
 
 ChannelDefinition_1e_72c8::
     notelen 2
@@ -714,7 +714,7 @@ waveform_1e_730f::
 
 ChannelDefinition_1e_731f::
     set_waveform waveform_1e_730f, $01
-    unknownop_94
+    enable_channel3_slow_attack
 
 ChannelDefinition_1e_7324::
     notelen 1
@@ -1170,7 +1170,7 @@ waveform_1e_7568::
 
 ChannelDefinition_1e_7578::
     set_waveform waveform_1e_7568, $00
-    unknownop_94
+    enable_channel3_slow_attack
 
 ChannelDefinition_1e_757d::
     notelen 2
@@ -1220,7 +1220,7 @@ MusicInstrumentThunderDrum_Channel4::
 
 ChannelDefinition_1e_75b5::
     set_envelope_duty $a1, $00, 2, 0
-    enable_unknown2
+    enable_percussion_mode
     notelen 2
     note D_3
     set_envelope_duty $61, $00, 2, 0
@@ -1611,9 +1611,9 @@ ChannelDefinition_1e_7758::
     note C#3
     notelen 3
     note D_3
-    enable_unknown2
+    enable_percussion_mode
     note F_3
-    disable_unknown2
+    disable_percussion_mode
     set_envelope_duty $41, $00, 2, 0
 
     begin_loop $06
@@ -1653,10 +1653,10 @@ ChannelDefinition_1e_7758::
     note F_6
     notelen 7
     note G_6
-    enable_unknown2
+    enable_percussion_mode
     notelen 3
     note A_2
-    disable_unknown2
+    disable_percussion_mode
     end_def
 
 ChannelDefinition_1e_77a3::
@@ -1682,7 +1682,7 @@ ChannelDefinition_1e_77a3::
     note F#4
     notelen 14
     rest
-    enable_unknown2
+    enable_percussion_mode
     notelen 1
     rest
     notelen 2
@@ -1694,7 +1694,7 @@ ChannelDefinition_1e_77a3::
     notelen 1
     note B_2
     note B_2
-    disable_unknown2
+    disable_percussion_mode
     notelen 6
     note B_2
     notelen 1
@@ -1718,7 +1718,7 @@ ChannelDefinition_1e_77a3::
     note C_3
     notelen 2
     note B_2
-    enable_unknown2
+    enable_percussion_mode
     note C_4
     notelen 1
     note C_4
@@ -1727,7 +1727,7 @@ ChannelDefinition_1e_77a3::
     notelen 1
     note B_2
     note B_2
-    disable_unknown2
+    disable_percussion_mode
     notelen 6
     note D_3
     notelen 1
@@ -1751,7 +1751,7 @@ ChannelDefinition_1e_77a3::
     note E_3
     notelen 2
     note D_3
-    enable_unknown2
+    enable_percussion_mode
     note C_4
     notelen 1
     note C_4
@@ -1760,7 +1760,7 @@ ChannelDefinition_1e_77a3::
     notelen 1
     note B_2
     note B_2
-    disable_unknown2
+    disable_percussion_mode
     notelen 6
     note G_1
     notelen 1
@@ -1781,10 +1781,10 @@ ChannelDefinition_1e_77a3::
     notelen 7
     note G_1
     set_envelope_duty $a1, $00, 2, 0
-    enable_unknown2
+    enable_percussion_mode
     notelen 3
     note F_3
-    disable_unknown2
+    disable_percussion_mode
     end_def
 
 ChannelDefinition_1e_7827::
@@ -2354,7 +2354,7 @@ ChannelDefinition_1e_7a87::
     rest
     notelen 2
     rest
-    enable_unknown2
+    enable_percussion_mode
     notelen 0
     note A#2
     note B_2
@@ -2492,7 +2492,7 @@ ChannelDefinition_1e_7a87::
     note B_2
     notelen 5
     note G_2
-    disable_unknown2
+    disable_percussion_mode
     end_def
 
 ChannelDefinition_1e_7b16::
@@ -2655,7 +2655,7 @@ MusicHeartContainer_Channel4::
 
 ChannelDefinition_1e_7bc9::
     set_envelope_duty $80, $81, 0, 0
-    enable_unknown1
+    disable_sfx
     notelen 1
     note E_4
     note A_4
@@ -3243,7 +3243,7 @@ ChannelDefinition_1e_7e70::
     next_loop
 
     set_envelope_duty $61, $00, 2, 0
-    enable_unknown2
+    enable_percussion_mode
     notelen 2
     note A_3
     notelen 6
@@ -3259,7 +3259,7 @@ ChannelDefinition_1e_7e70::
     note A_3
     notelen 2
     note A_3
-    disable_unknown2
+    disable_percussion_mode
     end_def
 
 ChannelDefinition_1e_7e96::

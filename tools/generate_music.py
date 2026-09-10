@@ -239,11 +239,11 @@ waveformAddresses = set()
 opNames = {
         0x00: 'end_def',
         0x01: 'rest',
-        0x94: 'unknownop_94',
-        0x95: 'disable_unknown1',
-        0x96: 'enable_unknown1',
-        0x97: 'enable_unknown2',
-        0x98: 'disable_unknown2',
+        0x94: 'enable_channel3_slow_attack',
+        0x95: 'enable_sfx',
+        0x96: 'disable_sfx',
+        0x97: 'enable_percussion_mode',
+        0x98: 'disable_percussion_mode',
         0x99: 'enable_software_envelope',
         0x9a: 'disable_software_envelope',
     }

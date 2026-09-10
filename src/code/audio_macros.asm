@@ -7,27 +7,27 @@ macro rest
 endm
 
 ; Sets [wActiveMusicTableIndex] to 1.
-macro unknownop_94
+macro enable_channel3_slow_attack
     db $94
 endm
 
-; Sets [wD3CD] to 0.
-macro disable_unknown1
+; Sets [wSfxDisabled] to 0.
+macro enable_sfx
     db $95
 endm
 
-; Sets [wD3CD] to 1.
-macro enable_unknown1
+; Sets [wSfxDisabled] to 1.
+macro disable_sfx
     db $96
 endm
 
-; Sets [wD3B6 + channelIndex] to 1.
-macro enable_unknown2
+; Sets [wPercussionMode + channelIndex] to 1.
+macro enable_percussion_mode
     db $97
 endm
 
-; Sets [wD3B6 + channelIndex] to 0.
-macro disable_unknown2
+; Sets [wPercussionMode + channelIndex] to 0.
+macro disable_percussion_mode
     db $98
 endm
 
@@ -68,8 +68,8 @@ endm
 ;
 ; Arg 1: Volume / Envelope control; written to NRx2. (Bits 4-7 control volume,
 ;        0-3 control the envelope.)
-; Arg 2: A separate, software-based volume control? Might be related to the
-;        "enable_software_envelope" command (or else that needs to be renamed).
+; Arg 2: Parameters of the delayed retrigger envelope, (Bits 4-7 control delay time,
+;        0-3 control the index of the actual hardware envelope to use.)
 ; Arg 3: Duty (0-3); bits 6-7 of NRx1
 ; Arg 4: Note length; bits 0-5 or NRx1
 ;

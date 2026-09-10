@@ -2376,14 +2376,20 @@ wMusicSpeedPointer::
 wD303::
   ds 4 ; D303 - D306
 
-; Unlabeled
-; ds 4 (channel-specific, used by opcode A0-AF)
-wD307::
+; Stores retrigger envelope data (as specified in song data) per channel.
+wRetriggerEnvelope::
+.channel1
   ds 1 ; D307
+.channel2
+  ds 1 ; D308
+.channel3
+  ds 1 ; D309
+.channel4
+  ds 1 ; D30A
 
-; Unlabeled
-wD308::
-  ds 8 ; D308 - D30F
+; not used
+wD30B::
+  ds 5 ; D30B - D30F
 
 ; Channel 1 data pointer
 wMusicChannel1:
@@ -2409,10 +2415,10 @@ wMusicChannel1:
 .volumeEnvelope::
   ds 1 ; D316
 
-; Opcode 9D stores data here for a software envelope.
-; Lower nibble is an index into the table at 1B:4B13 (-1)
-; Bit7 and Bit6 control the speed? (proper investigation is needed)
-.softwareEnvelope::
+; Opcode 9D stores data here to retrigger the note a second time, creating an "echo" effect.
+; Lower nibble is an index into the table at 1B:4B13 (-1) that stores the corresponding hardware envelope.
+; Higher nibble controls the delay time before the retrigger takes place.
+.retriggerEnvelope::
   ds 1 ; D317
 ; Opcode 9D stores data here. Controls the duty and length? (or vibrato?)
 .dutyLength::
@@ -2464,10 +2470,10 @@ wMusicChannel2:
 .volumeEnvelope::
   ds 1 ; D326
 
-; Opcode 9D stores data here for a software envelope.
-; Lower nibble is an index into the table at 1B:4B13 (-1)
-; Bit7 and Bit6 control the speed? (proper investigation is needed)
-.softwareEnvelope::
+; Opcode 9D stores data here to retrigger the note a second time, creating an "echo" effect.
+; Lower nibble is an index into the table at 1B:4B13 (-1) that stores the corresponding hardware envelope.
+; Higher nibble controls the delay time before the retrigger takes place.
+.retriggerEnvelope::
   ds 1 ; D327
 ; Opcode 9D stores data here. Controls the duty and length? (or vibrato?)
 .dutyLength::
@@ -2714,9 +2720,10 @@ wD3AF::
 wD3B0::
   ds 6 ; D3B0 - D3B5
 
-; Unlabeled
-; music channel-specific data
-wD3B6::
+; enables a frequency down sweep effect on the specific audio channel (2 bytes
+; per channel, only applies to channels 1-3, first byte is enabled flag, second
+; byte is frequency offset since note trigger)
+wPercussionMode::
   ds 6 ; D3A6 - D3BB
 
 ; Unlabeled
@@ -2789,8 +2796,8 @@ wPreviousMusicTrack::
 wD3CC::
   ds 1 ; D3CC
 
-; Unlabeled
-wD3CD::
+; Flag to disable sound effects while current song is playing.
+wSfxDisabled::
   ds 1 ; D3CD
 
 ; TODO comment

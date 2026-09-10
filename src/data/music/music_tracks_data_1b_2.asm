@@ -12,7 +12,7 @@ MusicTotakaUnused_Channel3::
 
 ChannelDefinition_1b_500f::
     set_waveform waveform_1b_6f01, $01
-    unknownop_94
+    enable_channel3_slow_attack
     notelen 3
     note C_4
     notelen 2
@@ -2463,7 +2463,7 @@ MusicShop_Channel3::
 
 ChannelDefinition_1b_5a0f::
     set_envelope_duty $44, $00, 2, 0
-    disable_unknown2
+    disable_percussion_mode
 
     begin_loop $02
         notelen 3
@@ -2500,7 +2500,7 @@ ChannelDefinition_1b_5a0f::
     note F#4
     notelen 4
     rest
-    enable_unknown2
+    enable_percussion_mode
     notelen 1
     note G_6
     note G_6
@@ -3565,7 +3565,7 @@ ChannelDefinition_1b_5ed6::
     end_def
 
 ChannelDefinition_1b_5edb::
-    enable_unknown1
+    disable_sfx
     notelen 1
     note G_5
     note F#5
@@ -3610,7 +3610,7 @@ ChannelDefinition_1b_5edb::
     note D_5
     notelen 8
     note D_6
-    disable_unknown1
+    enable_sfx
     end_def
 
 MusicOverworldIntro::
@@ -7502,12 +7502,12 @@ ChannelDefinition_1b_7010::
 
 ChannelDefinition_1b_7015::
     set_waveform waveform_1b_6f01, $01
-    unknownop_94
+    enable_channel3_slow_attack
     end_def
 
 ChannelDefinition_1b_701b::
     set_waveform waveform_1b_6ef1, $01
-    unknownop_94
+    enable_channel3_slow_attack
     end_def
 
 ChannelDefinition_1b_7021::
